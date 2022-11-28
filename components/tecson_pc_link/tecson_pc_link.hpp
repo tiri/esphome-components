@@ -17,9 +17,9 @@ class PCLinkPollingComponent : public PollingComponent, public uart::UARTDevice 
 
   void update() override;
 
- protected:
+ private:
   sensor::Sensor *volume_sensor_;
-  circular_buffer<uint8_t, 20> buff{};
+  circular_buffer<uint8_t, 20> buffer_{};
 };
 
 }  // namespace tecson

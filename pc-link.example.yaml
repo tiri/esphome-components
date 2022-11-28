@@ -17,11 +17,10 @@ wifi:
 
 uart:
   baud_rate: 2400
-  rx_pin: 20
-  debug:
-    direction: RX
 
 sensor:
   - platform: tecson_pc_link
     level:
       name: "Oil Tank Level"
+      filters:
+        - quantile:

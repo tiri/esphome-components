@@ -12,7 +12,6 @@ DEPENDENCIES = ["uart"]
 
 tecson_ns = cg.esphome_ns.namespace("tecson")
 PCLinkPollingComponent = tecson_ns.class_("PCLinkPollingComponent", cg.PollingComponent, uart.UARTDevice)
-PCLinkSensor = tecson_ns.class_("PCLinkSensor", sensor.Sensor)
 
 CONF_LEVEL = "level"
 UNIT_LITRE = "L"

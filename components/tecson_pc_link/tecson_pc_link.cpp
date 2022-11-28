@@ -12,12 +12,12 @@ void PCLinkPollingComponent::update() {
     return;
 
   for (int i = bytes_to_read; i > 0; i--) {
-    buff.push(this->read());
+    buffer_.push(this->read());
   }
 
   ESP_LOGD(TAG, "bytes read: %d.", bytes_to_read);
 
-  const auto current = buff.read_all();
+  const auto current = buffer_.read_all();
   if (current[0] != 0xFF || current[1] != 0x02 || current[19] != 0x03)
     return;
 
@@ -29,7 +29,7 @@ void PCLinkPollingComponent::update() {
     volume_sensor_->publish_state(tank_volume);
   }
 
-  buff.flush();
+  buffer_.flush();
 }
 
 }  // namespace tecson
