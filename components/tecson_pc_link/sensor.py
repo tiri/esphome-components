@@ -4,6 +4,8 @@ from esphome.components import uart, sensor
 from esphome.const import (
     CONF_ID,
     ICON_RULER,
+    STATE_CLASS_TOTAL,
+    DEVICE_CLASS_VOLUME
 )
 
 DEPENDENCIES = ["uart"]
@@ -12,13 +14,19 @@ tecson_ns = cg.esphome_ns.namespace("tecson")
 PCLinkPollingComponent = tecson_ns.class_("PCLinkPollingComponent", cg.PollingComponent, uart.UARTDevice)
 PCLinkSensor = tecson_ns.class_("PCLinkSensor", sensor.Sensor)
 
-CONF_VOLUME = "volume"
+CONF_LEVEL = "level"
 UNIT_LITRE = "L"
 
 CONFIG_SCHEMA = (
     cv.Schema({
         cv.GenerateID(): cv.declare_id(PCLinkPollingComponent),
-        cv.Optional(CONF_VOLUME): sensor.sensor_schema(unit_of_measurement=UNIT_LITRE, icon=ICON_RULER, accuracy_decimals=0),
+        cv.Optional(CONF_LEVEL): sensor.sensor_schema(
+            device_class=DEVICE_CLASS_VOLUME,
+            unit_of_measurement=UNIT_LITRE,
+            state_class=STATE_CLASS_TOTAL,
+            icon=ICON_RULER,
+            accuracy_decimals=0
+        ),
     })
     .extend(uart.UART_DEVICE_SCHEMA)
     .extend(cv.COMPONENT_SCHEMA)
@@ -30,6 +38,6 @@ async def to_code(config):
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
 
-    if CONF_VOLUME in config:
-        sens = await sensor.new_sensor(config[CONF_VOLUME])
+    if CONF_LEVEL in config:
+        sens = await sensor.new_sensor(config[CONF_LEVEL])
         cg.add(var.set_volume_sensor(sens))

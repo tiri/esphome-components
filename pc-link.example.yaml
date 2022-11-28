@@ -1,0 +1,27 @@
+esphome:
+  name: tecson-pc-link
+
+external_components:
+  - source: github://tiri/tecson-pc-link-component@main
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+uart:
+  baud_rate: 2400
+  rx_pin: 20
+  debug:
+    direction: RX
+
+sensor:
+  - platform: tecson_pc_link
+    level:
+      name: "Oil Tank Level"
